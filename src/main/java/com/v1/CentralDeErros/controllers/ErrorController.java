@@ -1,4 +1,4 @@
-package com.v1.centralDeErros.controllers;
+package com.v1.CentralDeErros.controllers;
 
 import java.util.List;
 
@@ -7,8 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.v1.centralDeErros.models.Error;
-import com.v1.centralDeErros.services.IErrorService;
+import com.v1.CentralDeErros.models.Error;
+import com.v1.CentralDeErros.services.IErrorService;
 
 @Controller
 public class ErrorController {

@@ -1,4 +1,4 @@
-package com.v1.centralDeErros.services;
+package com.v1.CentralDeErros.services;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.v1.centralDeErros.models.Error;
-import com.v1.centralDeErros.repositories.ErrorRepository;
+import com.v1.CentralDeErros.models.Error;
+import com.v1.CentralDeErros.repositories.ErrorRepository;
 
 @Service
 public class ErrorService implements IErrorService{

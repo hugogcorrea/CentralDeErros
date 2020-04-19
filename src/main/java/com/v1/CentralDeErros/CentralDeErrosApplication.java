@@ -1,4 +1,4 @@
-package com.v1.centralDeErros;
+package com.v1.CentralDeErros;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

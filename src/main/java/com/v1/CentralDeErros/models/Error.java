@@ -1,4 +1,4 @@
-package com.v1.centralDeErros.models;
+package com.v1.CentralDeErros.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

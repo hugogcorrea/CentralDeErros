@@ -1,9 +1,9 @@
-package com.v1.centralDeErros.services;
+package com.v1.CentralDeErros.services;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.v1.centralDeErros.models.Error;
+import com.v1.CentralDeErros.models.Error;
 
 public interface IErrorService {
 

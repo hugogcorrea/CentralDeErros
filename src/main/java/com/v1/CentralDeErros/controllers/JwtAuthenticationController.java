@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.v1.CentralDeErros.config.JwtTokenUtil;
 import com.v1.CentralDeErros.models.JwtRequest;
 import com.v1.CentralDeErros.models.JwtResponse;
+import com.v1.CentralDeErros.models.UserDAO;
 import com.v1.CentralDeErros.services.JwtUserDetailsService;
 
 
@@ -39,6 +40,11 @@ public class JwtAuthenticationController {
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	public ResponseEntity<?> saveUser(@RequestBody UserDAO user) throws Exception {
+		return ResponseEntity.ok(userDetailsService.save(user));
+	}
 
 	private void authenticate(String username, String password) throws Exception {
 		try {
@@ -49,4 +55,7 @@ public class JwtAuthenticationController {
 			throw new Exception("INVALID_CREDENTIALS", e);
 		}
 	}
+	
+	
+	
 }

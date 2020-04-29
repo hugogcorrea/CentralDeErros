@@ -24,13 +24,15 @@ public class JwtUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		
+
 		UserDAO user = userRepo.findByUsername(username);
-		if (user == null) {
+
+		if (user != null) {
+			return new User(user.getUsername(), user.getPassword(),
+					new ArrayList<>());
+		} else {
 			throw new UsernameNotFoundException("User not found with username: " + username);
 		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-				new ArrayList<>());
 	}
 
 	public UserDAO save(UserDAO user) {

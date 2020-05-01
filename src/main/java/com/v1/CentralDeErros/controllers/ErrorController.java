@@ -22,4 +22,10 @@ public class ErrorController {
 	public List<Error> listar() {
 		return errorService.findAll();
 	}
+	
+	@GetMapping("/tes")
+	@ResponseBody
+	public List<Error> tes() {
+		return errorService.findAll();
+	}
 }

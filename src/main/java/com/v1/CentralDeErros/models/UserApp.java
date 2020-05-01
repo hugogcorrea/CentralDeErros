@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 //@Table(name = "user")
-public class UserDAO {
+public class UserApp {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

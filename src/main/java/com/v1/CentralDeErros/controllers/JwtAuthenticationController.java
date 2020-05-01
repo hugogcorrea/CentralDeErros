@@ -7,7 +7,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,12 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.v1.CentralDeErros.config.JwtTokenUtil;
 import com.v1.CentralDeErros.models.JwtRequest;
 import com.v1.CentralDeErros.models.JwtResponse;
-import com.v1.CentralDeErros.models.UserDAO;
+import com.v1.CentralDeErros.models.UserApp;
 import com.v1.CentralDeErros.services.JwtUserDetailsService;
 
-
 @RestController
-@CrossOrigin
 public class JwtAuthenticationController {
 
 	@Autowired
@@ -35,28 +32,26 @@ public class JwtAuthenticationController {
 
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 		final String token = jwtTokenUtil.generateToken(userDetails);
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
-	
+
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public ResponseEntity<?> saveUser(@RequestBody UserDAO user) throws Exception {
+	public ResponseEntity<?> saveUser(@RequestBody UserApp user) throws Exception {
 		return ResponseEntity.ok(userDetailsService.save(user));
 	}
 
 	private void authenticate(String username, String password) throws Exception {
-	
+
 		try {
 			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 		} catch (DisabledException e) {
 			throw new Exception("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {
-			throw new Exception("INVALID_CREDENTIALS", e);
+			throw new Exception("Senha inválida", e);
 		}
 	}
-	
-	
-	
+
 }

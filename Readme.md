@@ -12,3 +12,10 @@ createdb CentralDeErros
     "password":"password"
     
 }
+
+/register
+{
+    "username":"springuser", 
+    "password":"password"
+    
+}

@@ -19,3 +19,6 @@ createdb CentralDeErros
     "password":"password"
     
 }
+
+Documentação e testes:
+http://localhost:8080/swagger-ui.html

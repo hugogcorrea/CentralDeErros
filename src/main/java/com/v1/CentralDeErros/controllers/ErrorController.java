@@ -25,7 +25,7 @@ public class ErrorController {
 	public List<Error> listar() {
 		return errorService.findAll();
 	}
-
+  
 	@ApiOperation(value = "Teste retorna user autenticado")
 	@GetMapping("/teste")
 	@ResponseBody

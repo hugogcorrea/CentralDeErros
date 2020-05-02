@@ -1,11 +1,12 @@
-package com.v1.CentralDeErros.controllers;
+package com.v1.CentralDeErros.controllers.endpoint;
 
 import java.util.List;
 
-import com.v1.CentralDeErros.exceptions.EmptyErrorListException;
-import com.v1.CentralDeErros.exceptions.ErrorNotFoundException;
-import com.v1.CentralDeErros.models.DTOs.ErrorDTO;
+import com.v1.CentralDeErros.exceptions.EmptyListException;
+import com.v1.CentralDeErros.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.v1.CentralDeErros.models.Error;
@@ -23,30 +24,21 @@ public class ErrorController {
         this.errorService = errorService;
     }
 
-    // TODO: Checar documentação orElse()
     @GetMapping
-    public List<Error> findAllErrors() {
-        List<Error> allErrors = errorService.findAll();
-
-        if (allErrors.isEmpty()) {
-            throw new EmptyErrorListException();
-        }
-
-        return allErrors;
+    public List<Error> findAllErrors(@RequestParam Integer size) {
+        return errorService.findAll(size);
     }
 
     @GetMapping("/{id}")
     public Error findErrorById(@PathVariable Integer id) {
-        return errorService.findById(id)
-                .orElseThrow(ErrorNotFoundException::new);
+        return errorService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteErrorById(@PathVariable Integer id) {
-        errorService.findById(id)
-				.orElseThrow(ErrorNotFoundException::new);
-
+    public ResponseEntity<Object> deleteErrorById(@PathVariable Integer id) {
         errorService.deleteById(id);
+
+        return new ResponseEntity<>("Erro deletado com sucesso", HttpStatus.OK);
     }
 
 }

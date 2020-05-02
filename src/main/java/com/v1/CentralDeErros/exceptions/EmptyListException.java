@@ -3,9 +3,9 @@ package com.v1.CentralDeErros.exceptions;
 import lombok.Getter;
 
 @Getter
-public class EmptyErrorListException extends RuntimeException {
+public class EmptyListException extends RuntimeException {
 
-    public EmptyErrorListException(String message) {
+    public EmptyListException(String message) {
         this.message = message;
     }
 

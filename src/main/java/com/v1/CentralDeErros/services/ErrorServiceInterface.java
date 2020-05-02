@@ -3,15 +3,16 @@ package com.v1.CentralDeErros.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.v1.CentralDeErros.models.DTOs.ErrorDTO;
 import com.v1.CentralDeErros.models.Error;
 
-public interface IErrorService {
+public interface ErrorServiceInterface {
 
-	public List<Error> findAll();
+	public List<Error> findAll(Integer size);
 
-	public void postNew(Error error);
+	public void addNew(ErrorDTO errorDTO, Integer applicationId);
 
-	public Optional<Error> findById(Integer id);
+	public Error findById(Integer id);
 
 	public void deleteById(Integer id);
 	

@@ -1,4 +1,3 @@
-package com.v1.CentralDeErros.controllers;
+package com.v1.CentralDeErros.enums;
 
-public enum ApplicationStatus {
-}
+public enum ApplicationStatus {ACTIVE, INACTIVE}

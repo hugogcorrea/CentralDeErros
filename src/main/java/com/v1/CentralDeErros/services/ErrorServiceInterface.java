@@ -9,6 +9,10 @@ public interface IErrorService {
 
 	public List<Error> findAll();
 
-	public Optional<Error> findOne(Integer id);
+	public void postNew(Error error);
+
+	public Optional<Error> findById(Integer id);
+
+	public void deleteById(Integer id);
 	
 }

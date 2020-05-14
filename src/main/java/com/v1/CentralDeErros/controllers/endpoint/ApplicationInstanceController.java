@@ -40,7 +40,6 @@ public class ApplicationInstanceController {
         return applicationService.findAll(size);
     }
 
-
     @PostMapping("/{id}/error-submission")
     public ResponseEntity<Object> addNewError(@PathVariable Integer id, @RequestBody ErrorDTO errorDTO) {
         errorService.addNew(errorDTO, id);

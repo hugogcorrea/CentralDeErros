@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.v1.CentralDeErros.config.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
@@ -15,21 +16,15 @@ import com.v1.CentralDeErros.models.UserApp;
 
 @Service
 public class AuthenticationService implements UserDetailsService {
-
-
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
-    public AuthenticationService(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager) {
+    public AuthenticationService(JwtTokenUtil jwtTokenUtil, @Lazy AuthenticationManager authenticationManager,
+                                 @Lazy UserService userService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.authenticationManager = authenticationManager;
-
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 

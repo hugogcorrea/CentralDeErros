@@ -4,6 +4,7 @@ import com.v1.CentralDeErros.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -24,21 +25,16 @@ import javax.annotation.PostConstruct;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
 	private SpringSecurityAuthenticationEntryPoint springSecurityAuthenticationEntryPoint;
-
 	private UserDetailsService authenticationService;
-
 	private JwtRequestFilter jwtRequestFilter;
 
 	@Autowired
-	public void setJwtRequestFilter(JwtRequestFilter jwtRequestFilter) {
-		this.jwtRequestFilter = jwtRequestFilter;
-	}
-
-	@Autowired // Setter injection para quebrar o ciclo...
-	public void setAuthenticationService(AuthenticationService authenticationService) {
+	public SpringSecurityConfig(UserDetailsService authenticationService, @Lazy JwtRequestFilter jwtRequestFilter,
+								SpringSecurityAuthenticationEntryPoint springSecurityAuthenticationEntryPoint) {
 		this.authenticationService = authenticationService;
+		this.jwtRequestFilter = jwtRequestFilter;
+		this.springSecurityAuthenticationEntryPoint = springSecurityAuthenticationEntryPoint;
 	}
 
 	@Autowired

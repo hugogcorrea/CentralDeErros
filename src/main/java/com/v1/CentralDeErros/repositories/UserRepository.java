@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.v1.CentralDeErros.models.UserApp;
 
+import java.util.Optional;
+
 @Repository
 public interface UserRepository extends JpaRepository<UserApp, Integer> {
-	UserApp findByUsername(String username);
+	Optional<UserApp> findByUsername(String username);
 }

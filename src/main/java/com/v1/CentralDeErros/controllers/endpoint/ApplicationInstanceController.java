@@ -3,6 +3,7 @@ package com.v1.CentralDeErros.controllers.endpoint;
 import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ApplicationInstanceDTO;
 import com.v1.CentralDeErros.models.DTOs.ErrorDTO;
+import com.v1.CentralDeErros.models.Error;
 import com.v1.CentralDeErros.services.ApplicationInstanceServiceInterface;
 import com.v1.CentralDeErros.services.ErrorServiceInterface;
 import org.hibernate.validator.constraints.EAN;
@@ -48,4 +49,8 @@ public class ApplicationInstanceController {
         return new ResponseEntity<>("Erro reportado com sucesso", HttpStatus.OK);
     }
 
+    @GetMapping("/{id}/errors")
+    public List<Error> listErrors(@PathVariable Integer id) {
+        return applicationService.errors(id);
+    }
 }

@@ -1,14 +1,15 @@
 package com.v1.CentralDeErros.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.v1.CentralDeErros.enums.ApplicationStatus;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 
 
@@ -32,10 +33,10 @@ public class ApplicationInstance {
 
     private ApplicationStatus status = ApplicationStatus.ACTIVE;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "applicationInstance",
             cascade = CascadeType.PERSIST
     )
-    @JsonManagedReference
     private List<Error> error = new ArrayList<>();
 
 }

@@ -3,6 +3,7 @@ package com.v1.CentralDeErros.models;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.v1.CentralDeErros.enums.ErrorType;
 import lombok.*;
 
@@ -31,8 +32,8 @@ public class Error {
     private ErrorType errorType = ErrorType.NON_CRASHING;
 
     @NonNull
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "application_instance_id", referencedColumnName = "id")
-    @JsonBackReference
     private ApplicationInstance applicationInstance;
 }

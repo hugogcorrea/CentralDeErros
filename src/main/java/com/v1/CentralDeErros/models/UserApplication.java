@@ -1,29 +1,28 @@
 package com.v1.CentralDeErros.models;
 
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Entity
-public class UserApp {
+public class UserApplication {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	//@Column
-	private String username;
-	/*
-	 * @Column
-	 * 
-	 * @JsonIgnore
-	 */
+	@NotNull
+	private String userName;
+
 	private String password;
 
 	public String getUsername() {
-		return username;
+		return userName;
 	}
 
 	public void setUsername(String username) {
-		this.username = username;
+		this.userName = username;
 	}
 
 	public String getPassword() {

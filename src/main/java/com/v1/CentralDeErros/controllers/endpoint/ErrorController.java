@@ -48,11 +48,6 @@ public class ErrorController {
         return new ResponseEntity<>("Erro deletado com sucesso", HttpStatus.OK);
     }
     
-    @ApiOperation(value = "Teste retorna user autenticado")
-	@GetMapping("/teste")
-	@ResponseBody
-	public Authentication teste(Authentication aut) {
-		return aut;
-	}
+   
 
 }

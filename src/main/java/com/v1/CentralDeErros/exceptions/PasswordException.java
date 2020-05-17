@@ -1,4 +1,4 @@
-package com.v1.CentralDeErros.controllers.exception;
+package com.v1.CentralDeErros.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

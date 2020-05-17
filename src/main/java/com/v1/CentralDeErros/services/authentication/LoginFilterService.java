@@ -1,4 +1,4 @@
-package com.v1.CentralDeErros.services;
+package com.v1.CentralDeErros.services.authentication;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.v1.CentralDeErros.models.UserApp;
+import com.v1.CentralDeErros.models.UserApplication;
 
 public class LoginFilterService extends UsernamePasswordAuthenticationFilter {
 
@@ -30,7 +30,7 @@ public class LoginFilterService extends UsernamePasswordAuthenticationFilter {
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
 		try {
-			UserApp credentials = new ObjectMapper().readValue(request.getInputStream(), UserApp.class);
+			UserApplication credentials = new ObjectMapper().readValue(request.getInputStream(), UserApplication.class);
 
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(),
 					credentials.getPassword(), new ArrayList<>()));
@@ -47,7 +47,7 @@ public class LoginFilterService extends UsernamePasswordAuthenticationFilter {
 
 		// TODO ADD HEADER
 		// TODO -> criar log de usuario
-		UserApp user = new UserApp();
+		UserApplication user = new UserApplication();
 		user.setUsername(auth.getName());
 		
 	}

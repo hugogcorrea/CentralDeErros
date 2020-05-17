@@ -12,7 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.v1.CentralDeErros.services.LoginService;
+import com.v1.CentralDeErros.services.authentication.LoginService;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {

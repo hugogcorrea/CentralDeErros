@@ -1,4 +1,4 @@
-package com.v1.CentralDeErros.services;
+package com.v1.CentralDeErros.services.authentication;
 
 import java.util.Collections;
 import java.util.Date;
@@ -6,14 +6,13 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.v1.CentralDeErros.controllers.exception.PasswordException;
-import com.v1.CentralDeErros.models.UserApp;
+import com.v1.CentralDeErros.models.UserApplication;
+import com.v1.CentralDeErros.services.UserService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,15 +29,16 @@ public class LoginService {
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
 
-	static final long EXPIRATION_TIME = 60 * 5;
-	@Value("${jwt.secret}")
+	static final long EXPIRATION_TIME = 999999;
+	
 	static final String SECRET = "MySecret";
 	static final String TOKEN_PREFIX = "Bearer";
 	static final String HEADER_STRING = "Authorization";
 
-	public String addAuthentication(UserApp user) throws Exception {
-		verifyUser(user);
-		String JWT = Jwts.builder().setSubject(user.getUsername())
+	public String addAuthentication(UserApplication user) throws Exception {
+		userService.verifyUser(user);
+		String JWT = Jwts.builder()
+				.setSubject(user.getUsername())
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
 				.signWith(SignatureAlgorithm.HS512, SECRET).compact();
 		return JWT;
@@ -49,7 +49,10 @@ public class LoginService {
 
 		if (token != null) {
 			// faz parse do token
-			String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody()
+			String user = Jwts
+					.parser()
+					.setSigningKey(SECRET)
+					.parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody()
 					.getSubject();
 
 			if (user != null) {
@@ -58,14 +61,7 @@ public class LoginService {
 		}
 		return null;
 	}
+	
+	
 
-	// TODO ISOLAR ESSE METODo EM OUTRA CLASSE
-	private void verifyUser(UserApp user) throws Exception {
-		UserApp userApp = userService.findUser(user.getUsername());
-
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		if (!passwordEncoder.matches(user.getPassword(), userApp.getPassword())) {
-			throw new PasswordException();
-		}
-	}
 }

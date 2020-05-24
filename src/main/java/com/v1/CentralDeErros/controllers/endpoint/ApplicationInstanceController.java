@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
-@RequestMapping("api/v1//applications")
+@RequestMapping("api/v1/applications")
 @RestController
 public class ApplicationInstanceController {
 
@@ -29,18 +29,10 @@ public class ApplicationInstanceController {
         this.errorService = errorService;
     }
 
-    @PostMapping
-    public ResponseEntity<Object> addNewApplication(@RequestBody ApplicationInstanceDTO applicationInstanceDTO) {
-        applicationService.addNew(applicationInstanceDTO);
-
-        return new ResponseEntity<>("Aplicação adicionada com sucesso", HttpStatus.OK);
-    }
-
     @GetMapping
     public List<ApplicationInstance> getAllApplications(@RequestParam Integer size){
         return applicationService.findAll(size);
     }
-
 
     @PostMapping("/{id}/error-submission")
     public ResponseEntity<Object> addNewError(@PathVariable Integer id, @RequestBody ErrorDTO errorDTO) {

@@ -28,8 +28,8 @@ public class LoginService {
 		this.userService = userService;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 	}
-
-	static final long EXPIRATION_TIME = 999999;
+	
+	static final long EXPIRATION_TIME = 3600000;
 	
 	static final String SECRET = "MySecret";
 	static final String TOKEN_PREFIX = "Bearer";
@@ -44,7 +44,7 @@ public class LoginService {
 		return JWT;
 	}
 
-	public static Authentication getAuthentication(HttpServletRequest request) {
+	public Authentication getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_STRING);
 
 		if (token != null) {

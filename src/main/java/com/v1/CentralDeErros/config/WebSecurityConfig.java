@@ -21,13 +21,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		httpSecurity.csrf()
-		      	.disable()
-		      	.authorizeRequests() // Não cheque nenhuma das requisições
-				.antMatchers(ROUTES)
-				.permitAll()
+				.disable().authorizeRequests() // Não cheque nenhuma das requisições
+				.antMatchers(ROUTES).permitAll()
 				// Qualquer outra requisição deve ser checada
 				.anyRequest().authenticated().and().exceptionHandling()
-				// .authenticationEntryPoint(springSecurityAuthenticationEntryPoint) // Exceções tratadas aqui
+				// .authenticationEntryPoint(springSecurityAuthenticationEntryPoint) // Exceções
+				// tratadas aqui
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Sem sessão
 
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,12 +1,10 @@
-package com.v1.CentralDeErros.Util;
+package com.v1.CentralDeErros.util;
 
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Optional;
 
-public final class DateUtility {
+public class DateUtility {
 
     public static Date getStringAsDate(String dateAsString) throws ParseException {
         String pattern = "dd-MM-yyyy HH:mm:ss";

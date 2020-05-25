@@ -10,11 +10,9 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.Date;
 
-@RequiredArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
 @Entity
-@Table(name = "error")
 public class Error {
 
     @Id
@@ -32,8 +30,14 @@ public class Error {
     private ErrorType errorType = ErrorType.NON_CRASHING;
 
     @NonNull
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "application_instance_id", referencedColumnName = "id")
+    @JoinColumn(name = "application_instance_id")
+    @JsonIgnore
     private ApplicationInstance applicationInstance;
+
+    public Error(String description, Date registrationDate, ApplicationInstance applicationInstance) {
+        this.description = description;
+        this.registrationDate = registrationDate;
+        this.applicationInstance = applicationInstance;
+    }
 }

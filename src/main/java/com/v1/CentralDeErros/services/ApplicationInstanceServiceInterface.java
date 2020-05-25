@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ApplicationInstanceServiceInterface {
 
-    public void addNew(ApplicationInstanceDTO applicationInstanceDTO);
+    public void addNew(ApplicationInstanceDTO applicationInstanceDTO, Integer serverId);
 
     public List<ApplicationInstance> findAll(Integer size);
 

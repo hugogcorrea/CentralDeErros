@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.v1.CentralDeErros.util.DateUtility;
+import com.v1.CentralDeErros.Util.DateUtility;
 import com.v1.CentralDeErros.exceptions.EmptyListException;
 import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.exceptions.WrongInputDataException;
@@ -14,14 +14,13 @@ import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ErrorDTO;
 import com.v1.CentralDeErros.repositories.ApplicationInstanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import com.v1.CentralDeErros.models.Error;
 import com.v1.CentralDeErros.repositories.ErrorRepository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional
 public class ErrorService implements ErrorServiceInterface {
 
     private final ErrorRepository errorRepository;
@@ -54,12 +53,10 @@ public class ErrorService implements ErrorServiceInterface {
         try {
             registrationDate = DateUtility.getStringAsDate(errorDTO.getRegistrationDate());
         } catch (ParseException ex) {
-            throw new WrongInputDataException("A data enviada para este erro não está em um formato válido." +
-                    " Por favor, tente dd-MM-yyyy HH:mm:ss para a formatação");
+            throw new WrongInputDataException("A data enviada para este erro não está em um formato válido");
         }
 
-        Optional<ApplicationInstance> relatedApplicationInstance =
-                applicationInstanceRepository.findById(applicationId);
+        Optional<ApplicationInstance> relatedApplicationInstance = applicationInstanceRepository.findById(applicationId);
 
         if (!relatedApplicationInstance.isPresent()) {
             throw new NotFoundException("Não existe uma instância de aplicação com o id fornecido");

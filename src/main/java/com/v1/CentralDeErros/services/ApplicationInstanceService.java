@@ -2,7 +2,7 @@ package com.v1.CentralDeErros.services;
 
 import com.v1.CentralDeErros.models.Server;
 import com.v1.CentralDeErros.repositories.ServerRepository;
-import com.v1.CentralDeErros.util.DateUtility;
+import com.v1.CentralDeErros.Util.DateUtility;
 import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.exceptions.WrongInputDataException;
 import com.v1.CentralDeErros.models.ApplicationInstance;

@@ -23,14 +23,6 @@ public class UserApplication {
 	@OneToMany(mappedBy = "id.userApplication")
 	private List<Permission> permissions;
 
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
-	}
-
 	public String getUsername() {
 		return userName;
 	}
@@ -45,6 +37,14 @@ public class UserApplication {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
 	}
 
 }

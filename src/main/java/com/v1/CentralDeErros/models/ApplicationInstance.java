@@ -50,13 +50,5 @@ public class ApplicationInstance {
     	
 	@OneToMany(mappedBy = "id.applicationInstance")
 	private List<Permission> permissions;
-
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
-	}
-
+	
 }

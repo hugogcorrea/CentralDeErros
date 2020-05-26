@@ -1,13 +1,14 @@
 package com.v1.CentralDeErros.services;
 
-import com.v1.CentralDeErros.Util.DateUtility;
+import com.v1.CentralDeErros.models.Server;
+import com.v1.CentralDeErros.repositories.ServerRepository;
+import com.v1.CentralDeErros.util.DateUtility;
 import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.exceptions.WrongInputDataException;
 import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ApplicationInstanceDTO;
 import com.v1.CentralDeErros.models.Error;
 import com.v1.CentralDeErros.repositories.ApplicationInstanceRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,24 +24,35 @@ import java.util.stream.Collectors;
 public class ApplicationInstanceService implements ApplicationInstanceServiceInterface {
 
     private final ApplicationInstanceRepository applicationInstanceRepository;
+    private final ServerRepository serverRepository;
 
     @Autowired
-    ApplicationInstanceService(ApplicationInstanceRepository applicationInstanceRepository) {
+    ApplicationInstanceService(ApplicationInstanceRepository applicationInstanceRepository,
+                               ServerRepository serverRepository) {
         this.applicationInstanceRepository = applicationInstanceRepository;
+        this.serverRepository = serverRepository;
     }
+
     // Aqui acontece o mapeamento de uma applicationDTO para uma Entity ApplicationInstance.
     @Override
-    public void addNew(ApplicationInstanceDTO applicationInstanceDTO) {
+    public void addNew(ApplicationInstanceDTO applicationInstanceDTO, Integer serverId) {
         Date instantiationDate;
 
         try {
             instantiationDate = DateUtility.getStringAsDate(applicationInstanceDTO.getInstantiationDate());
         } catch (ParseException ex) {
-            throw new WrongInputDataException("A data de instanciação da aplicação não é válida");
+            throw new WrongInputDataException("A data enviada para esta aplicação não está em um formato válido." +
+                    " Por favor, tente dd-MM-yyyy HH:mm:ss para a formatação");
+        }
+
+        Optional<Server> relatedServer = serverRepository.findById(serverId);
+
+        if (!relatedServer.isPresent()) {
+            throw new NotFoundException("Não existe um servidor com o id fornecido");
         }
 
         ApplicationInstance newApplicationInstance = new ApplicationInstance(applicationInstanceDTO.getApplicationName(),
-                instantiationDate);
+                instantiationDate, relatedServer.get());
 
         applicationInstanceRepository.save(newApplicationInstance);
     }

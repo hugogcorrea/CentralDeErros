@@ -22,11 +22,9 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 
-@RequiredArgsConstructor
+@Data
 @NoArgsConstructor
-@Getter
 @Entity
-@Table(name = "application_instance")
 public class ApplicationInstance {
 
     @Id
@@ -35,17 +33,17 @@ public class ApplicationInstance {
     private Integer id;
 
     @NonNull
-    private String applicationName;
+    private String name;
 
     @NonNull
     private Date instantiationDate;
 
-    private ApplicationStatus status = ApplicationStatus.ACTIVE;
+    private final ApplicationStatus status = ApplicationStatus.ACTIVE;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "applicationInstance",
             cascade = CascadeType.PERSIST
     )
+<
     private List<Error> error = new ArrayList<>();
     	
 	@OneToMany(mappedBy = "id.applicationInstance")
@@ -59,4 +57,19 @@ public class ApplicationInstance {
 		this.permissions = permissions;
 	}
 
+    @JsonIgnore
+    private final List<Error> error = new ArrayList<>();
+
+    @NonNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "server_id")
+    @JsonIgnore
+    private Server server;
+
+
+    public ApplicationInstance(String applicationName, Date instantiationDate, Server server) {
+        this.name = applicationName;
+        this.instantiationDate = instantiationDate;
+        this.server = server;
+    }
 }

@@ -44,7 +44,7 @@ public class LoginService {
 		return JWT;
 	}
 
-	public static Authentication getAuthentication(HttpServletRequest request) {
+	public Authentication getAuthentication(HttpServletRequest request) {
 		String token = request.getHeader(HEADER_STRING);
 
 		if (token != null) {

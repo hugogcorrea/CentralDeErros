@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.v1.CentralDeErros.util.DateUtility;
+import com.v1.CentralDeErros.Util.DateUtility;
 import com.v1.CentralDeErros.exceptions.EmptyListException;
 import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.exceptions.WrongInputDataException;

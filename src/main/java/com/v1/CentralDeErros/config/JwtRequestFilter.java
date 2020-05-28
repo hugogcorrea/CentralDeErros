@@ -17,6 +17,7 @@ import com.v1.CentralDeErros.services.authentication.LoginService;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
+
 	LoginService loginService;
 
 	@Autowired
@@ -30,13 +31,11 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		final String header = request.getHeader("Authorization");
 
-		if (header == null || !header.startsWith("Bearer")) {
-			chain.doFilter(request, response);
-			return;
+		if (header != null && header.startsWith("Bearer")) {
+			Authentication authentication = loginService.getAuthentication(request);
+			SecurityContextHolder.getContext().setAuthentication(authentication);
 		}
-		Authentication authentication = loginService.getAuthentication((HttpServletRequest) request);
 
-		SecurityContextHolder.getContext().setAuthentication(authentication);
 		chain.doFilter(request, response);
 	}
 }

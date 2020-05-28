@@ -1,5 +1,6 @@
 package com.v1.CentralDeErros.controllers;
 
+import com.v1.CentralDeErros.models.DTOs.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,29 +23,27 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "JwtAuthentication")
 public class LoginController {
 
-	private UserService userService;
-	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	private LoginService loginService;
+	private final UserService userService;
+	private final LoginService loginService;
 
 	@Autowired
 	public LoginController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder,
 			LoginService loginService) {
 		this.userService = userService;
-		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
 		this.loginService = loginService;
 	}
 
 	@ApiOperation(value = "Autenticar")
 	@PostMapping("/authenticate")
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody UserApplication user) throws Exception {
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody UserDTO user) {
 		final String token = loginService.addAuthentication(user);
+
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
 
 	@ApiOperation(value = "Registrar")
 	@PostMapping("/register")
-	public ResponseEntity<?> saveUser(@RequestBody UserApplication user) throws Exception {
-		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+	public ResponseEntity<?> saveUser(@RequestBody UserDTO user) {
 		userService.saveUser(user);
 
 		return new ResponseEntity<>("Cadastro realizado com sucesso!", HttpStatus.OK);
@@ -55,7 +54,6 @@ public class LoginController {
 	@ResponseBody
 	public String teste() {
 		return userService.getCurrentUserName();
-
 	}
 
 }

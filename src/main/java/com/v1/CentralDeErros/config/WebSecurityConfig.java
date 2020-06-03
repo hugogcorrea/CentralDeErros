@@ -12,7 +12,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private JwtRequestFilter jwtRequestFilter;
 	private final String[] ROUTES = { "/authenticate", "/register", "/v2/api-docs", "/configuration/ui",
-			"/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**" };
+			"/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/actuator/**", "/webjars/**" };
 
 	@Autowired
 	public WebSecurityConfig(JwtRequestFilter jwtRequestFilter) {

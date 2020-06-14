@@ -1,51 +1,30 @@
 package com.v1.CentralDeErros.models;
 
+import lombok.*;
+
+import javax.persistence.*;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-
+@Data
+@NoArgsConstructor
 @Entity
 public class UserApplication {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
-	@NotNull
-	private String userName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	private String password;
+    @NonNull
+    private String username;
 
-	@OneToMany(mappedBy = "id.userApplication")
-	private List<Permission> permissions;
+    @NonNull
+    private String password;
 
-	
-	public String getUsername() {
-		return userName;
-	}
+    @OneToMany(mappedBy = "id.userApplication")
+    private List<Permission> permissions;
 
-	public void setUsername(String username) {
-		this.userName = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public List<Permission> getPermissions() {
-		return permissions;
-	}
-
-	public void setPermissions(List<Permission> permissions) {
-		this.permissions = permissions;
-	}
-
+    public UserApplication(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

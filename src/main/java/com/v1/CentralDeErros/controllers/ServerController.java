@@ -1,4 +1,4 @@
-package com.v1.CentralDeErros.controllers.endpoint;
+package com.v1.CentralDeErros.controllers;
 
 import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ApplicationInstanceDTO;

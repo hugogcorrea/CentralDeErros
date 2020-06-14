@@ -10,7 +10,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	private JwtRequestFilter jwtRequestFilter;
+	private final JwtRequestFilter jwtRequestFilter;
 	private final String[] ROUTES = { "/authenticate", "/register", "/v2/api-docs", "/configuration/ui",
 			"/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**" };
 
@@ -27,7 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.permitAll()
 				// Qualquer outra requisição deve ser checada
 				.anyRequest().authenticated().and().exceptionHandling()
-				// .authenticationEntryPoint(springSecurityAuthenticationEntryPoint) // Exceções tratadas aqui
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS); // Sem sessão
 
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,13 +1,15 @@
 package com.v1.CentralDeErros.exceptions;
 
+import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+@Getter
 public class PasswordException extends RuntimeException {
-	private static String MESSAGE = "Senha incorreta";
 
-	public PasswordException() {
-		super(MESSAGE);
-	}
+    private final String message;
+
+    public PasswordException(String message) {
+        this.message = message;
+    }
 }

@@ -1,4 +1,4 @@
-package com.v1.CentralDeErros.Util;
+package com.v1.CentralDeErros.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

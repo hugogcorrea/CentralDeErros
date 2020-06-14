@@ -1,16 +1,14 @@
 package com.v1.CentralDeErros.services;
 
-import static java.util.Collections.emptyList;
 
 import java.util.Optional;
 
+import com.v1.CentralDeErros.exceptions.UsernameAlreadyTakenException;
+import com.v1.CentralDeErros.models.DTOs.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,60 +19,61 @@ import com.v1.CentralDeErros.models.UserApplication;
 import com.v1.CentralDeErros.repositories.UserRepository;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+    @Autowired
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userRepository = userRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
-	public UserApplication findUser(String userName) {
-		Optional<UserApplication> returnUser = userRepository.findByUserName(userName);
+    public UserApplication findUser(String username) {
+        Optional<UserApplication> returnUser = userRepository.findByUsername(username);
 
-		if (!returnUser.isPresent()) {
-			throw new UsernameNotFoundException("Usuário " + userName + " não existe");
-		}
+        if (!returnUser.isPresent()) {
+            throw new UsernameNotFoundException("Usuário " + username + " não existe");
+        }
 
-		return returnUser.get();
-	}
+        return returnUser.get();
+    }
 
-	// Checar aqui se já existe um usuário com esse nome ou não.
-	public void saveUser(UserApplication userApp) {
-		userRepository.save(userApp);
-	}
 
-	// OBS. ESTE METODO É USADO PARA LOGAR COM O USERNAME E BUSCAR O ID NO BANCO,
-	// COMO NO NOSSO CASO O EMAIL(USERNAME) É O ID, NAO VEJO NECESSIDADE DO SEU
-	// USO..
-	// TEREMOS QUE AVALIAR MELHOR...
-	@Override
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-		UserApplication userApp = userRepository.findByUserName(userName).get();
-		if (userApp == null) {
-			throw new UsernameNotFoundException(userName);
-		}
-		return new User(userApp.getUsername(), userApp.getPassword(), emptyList());
-	}
+    public void saveUser(UserDTO userDTO) {
+        Optional<UserApplication> userWithTheSameUsername = userRepository.findByUsername(userDTO.getUsername());
 
-	public void verifyUser(UserApplication user) throws PasswordException {
-		UserApplication userApp = findUser(user.getUsername());
+        if (userWithTheSameUsername.isPresent()) {
+            throw new UsernameAlreadyTakenException("Já existe um usuário com este nome.");
+        }
 
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		if (!passwordEncoder.matches(user.getPassword(), userApp.getPassword())) {
-			throw new PasswordException();
-		}
-	}
+        String newUserEncryptedPassword = bCryptPasswordEncoder.encode(userDTO.getPassword());
 
-	public String getCurrentUserName() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-			String currentUserName = authentication.getName();
-			return currentUserName;
-		} else {
-			throw new UserNotAuthenticatedException();
-		}
-	}
+        UserApplication newUser = new UserApplication(userDTO.getUsername(), newUserEncryptedPassword);
 
+        userRepository.save(newUser);
+    }
+
+    public void verifyUser(UserDTO user) {
+        UserApplication userApp = findUser(user.getUsername());
+
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        if (!passwordEncoder.matches(user.getPassword(), userApp.getPassword())) {
+            throw new PasswordException("Cadastro incorreto. Verifique sua senha.");
+        }
+
+    }
+
+    public String getCurrentUserName() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            throw new UserNotAuthenticatedException("Usuário não autenticado.");
+        } else {
+            return authentication.getName();
+        }
+
+    }
 }

@@ -1,11 +1,14 @@
 package com.v1.CentralDeErros.controller_advice;
 
 import com.v1.CentralDeErros.exceptions.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class ExceptionController {
@@ -44,4 +47,10 @@ public class ExceptionController {
     public ResponseEntity<Object> exception(UsernameAlreadyTakenException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(value = ExpiredJwtException.class)
+    public ResponseEntity<Object> exception(ExpiredJwtException exception) {
+        return new ResponseEntity<>("Sessão expirada. Autentique-se novamente.", HttpStatus.UNAUTHORIZED);
+    }
+
 }

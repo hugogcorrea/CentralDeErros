@@ -12,6 +12,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Permission {
+
 	@EmbeddedId
 	private PermissionId id;
 

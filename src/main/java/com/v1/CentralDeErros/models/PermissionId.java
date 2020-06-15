@@ -10,10 +10,10 @@ import lombok.Data;
 @Embeddable
 @Data
 public class PermissionId implements Serializable {
+
 	@ManyToOne
 	private ApplicationInstance applicationInstance;
 
 	@ManyToOne
 	private UserApplication userApplication;
-
 }

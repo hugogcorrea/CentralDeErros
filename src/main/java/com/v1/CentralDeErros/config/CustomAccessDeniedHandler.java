@@ -16,11 +16,11 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response,
-                       AccessDeniedException ex) throws IOException, ServletException {
+                       AccessDeniedException exception) throws IOException, ServletException {
 
         response.setContentType("application/json");
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        response.getOutputStream().println("{ \"erro\": \"" + ex.getMessage() + "\" }");
+        response.getOutputStream().println("{ \"erro\": \"" + exception.getMessage() + "\" }");
 
     }
 }

@@ -25,7 +25,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 		this.loginService = loginService;
 	}
 
-	// validamos a existência de um JWT nas requisições com ajuda do LoginService
+	// Validamos a existência de um JWT nas requisições com ajuda do LoginService
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {

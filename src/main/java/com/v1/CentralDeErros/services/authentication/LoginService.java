@@ -21,7 +21,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class LoginService {
 
-    static final long EXPIRATION_TIME = 999999;
+    static final long EXPIRATION_TIME = 999999999;
     static final String SECRET = "MySecret";
     static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
@@ -36,12 +36,13 @@ public class LoginService {
     }
 
     public String addAuthentication(UserDTO user) {
-        // Caso não exista um usuário com esse nome, uma UsernameNotFoundException será lançada.
-        // Caso a senha esteja incorreta, será lançada uma PasswordException.
-        // Ambas as exceções são tratadas no ExceptionController.
+        /* Caso não exista um usuário com esse nome, uma UsernameNotFoundException será lançada.
+         * Caso a senha esteja incorreta, será lançada uma PasswordException.
+         * Ambas as exceções são tratadas no ExceptionController. */
         userService.verifyUser(user);
 
-        String JWT = Jwts.builder()
+        String JWT = Jwts
+                .builder()
                 .setSubject(user.getUsername())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();

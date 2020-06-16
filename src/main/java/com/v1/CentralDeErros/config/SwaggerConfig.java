@@ -1,6 +1,7 @@
 package com.v1.CentralDeErros.config;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -29,8 +30,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.basePackage("com.v1"))
 				.build().apiInfo(metaData())
-				.securitySchemes(Arrays.asList(new ApiKey("Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
-				.securityContexts(Arrays.asList(securityContext()));
+				.securitySchemes(Collections.singletonList(new ApiKey("Token Access", HttpHeaders.AUTHORIZATION, In.HEADER.name())))
+				.securityContexts(Collections.singletonList(securityContext()));
 		
 	}
 
@@ -50,7 +51,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 		AuthorizationScope authorizationScope = new AuthorizationScope("ADMIN", "accessEverything");
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
 		authorizationScopes[0] = authorizationScope;
-		return Arrays.asList(new SecurityReference("Token Access", authorizationScopes));
+		return Collections.singletonList(new SecurityReference("Token Access", authorizationScopes));
 	}
 
 	@Override

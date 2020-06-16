@@ -44,6 +44,7 @@ public class ApplicationInstance {
     private Server server;
 
     @OneToMany(mappedBy = "id.applicationInstance")
+    @JsonIgnore
 	private List<Permission> permissions;
     
     public ApplicationInstance(String applicationName, Date instantiationDate, Server server) {

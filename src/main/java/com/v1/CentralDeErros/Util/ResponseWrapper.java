@@ -1,4 +1,4 @@
-package com.v1.CentralDeErros.util;
+package com.v1.CentralDeErros.Util;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;

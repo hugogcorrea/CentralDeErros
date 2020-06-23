@@ -1,9 +1,15 @@
 package com.v1.CentralDeErros.controllers;
 
 import com.v1.CentralDeErros.models.DTOs.UserDTO;
+
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,8 +58,18 @@ public class LoginController {
 	@ApiOperation(value = "Teste retorna user autenticado")
 	@GetMapping("/teste")
 	@ResponseBody
-	public String teste() {
-		return userService.getCurrentUserName();
+	public Authentication teste() {
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return authentication;
+	}
+	
+	
+	@ApiOperation(value = "Teste retorna user autenticado")
+	@GetMapping("/roles")
+	@ResponseBody
+	public Collection<? extends GrantedAuthority> roles() {	
+		return userService.authorities(userService.findUser(userService.getCurrentUserName()));
 	}
 
 }

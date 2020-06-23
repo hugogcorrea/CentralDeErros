@@ -12,7 +12,7 @@ import com.v1.CentralDeErros.exceptions.WrongInputDataException;
 import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ErrorDTO;
 import com.v1.CentralDeErros.repositories.ApplicationInstanceRepository;
-import com.v1.CentralDeErros.util.DateUtility;
+import com.v1.CentralDeErros.Util.DateUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

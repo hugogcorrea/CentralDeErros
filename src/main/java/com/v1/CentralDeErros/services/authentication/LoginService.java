@@ -1,18 +1,19 @@
 package com.v1.CentralDeErros.services.authentication;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.v1.CentralDeErros.models.DTOs.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.v1.CentralDeErros.models.UserApplication;
+import com.v1.CentralDeErros.models.DTOs.UserDTO;
 import com.v1.CentralDeErros.services.UserService;
 
 import io.jsonwebtoken.Jwts;
@@ -64,8 +65,11 @@ public class LoginService {
                     .getSubject();
 
             if (user != null) {
+             	Collection<? extends GrantedAuthority> roles = 
+             			userService.authorities(userService.findUser(user));
+             	
                 returnAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
+                        new UsernamePasswordAuthenticationToken(user, null, roles);
             }
         }
 

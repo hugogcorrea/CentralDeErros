@@ -1,35 +1,49 @@
 package com.v1.CentralDeErros.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.v1.CentralDeErros.services.UserService;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     static final String[] ROUTES = {"/authenticate", "/register", "/v2/api-docs", "/configuration/ui",
-            "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**"};
+            "/swagger-resources/**", "/configuration/**", "/swagger-ui.html", "/webjars/**", "/roles"};
 
+    static final String[] ROUTES_ADMIN = { "/**" };
+	
+    
+	static final String[] ROUTES_USER = { "/api/v1/applications" };
+	
     private final JwtRequestFilter jwtRequestFilter;
     private final PermissionFilter permissionFilter;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final ExceptionHandlerFilter exceptionHandlerFilter;
+    private final UserService userService;
 
     @Autowired
     public WebSecurityConfig(JwtRequestFilter jwtRequestFilter,
                              PermissionFilter permissionFilter,
                              CustomAccessDeniedHandler customAccessDeniedHandler,
                              CustomAuthenticationEntryPoint customAuthenticationEntryPoint,
-                             ExceptionHandlerFilter exceptionHandlerFilter) {
+                             ExceptionHandlerFilter exceptionHandlerFilter,
+                             UserService userService) {
         this.jwtRequestFilter = jwtRequestFilter;
         this.permissionFilter = permissionFilter;
         this.customAccessDeniedHandler = customAccessDeniedHandler;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
         this.exceptionHandlerFilter = exceptionHandlerFilter;
+        this.userService = userService;
     }
 
     @Override
@@ -38,11 +52,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Sem sessão
 
-                .and()
-                    .csrf().disable()
-                    .authorizeRequests()
-                    .antMatchers(ROUTES).permitAll() // Não cheque nenhuma das requisições de ROUTES
-                    .anyRequest().authenticated() // Qualquer outra requisição deve ser checada
+				.and()
+				.csrf().disable()
+				.authorizeRequests()
+				  .antMatchers(ROUTES).permitAll() 	
+				  .antMatchers(ROUTES_USER).hasRole("USER")
+				  .antMatchers(ROUTES_ADMIN).hasRole("ADMIN")				 
+				  .anyRequest().authenticated() // Qualquer outra requisição deve ser checada
 
                 .and()
                     .exceptionHandling()
@@ -65,5 +81,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          * especificamente exceções ligadas aos erros 403 (Forbidden) e 401 (Unauthorized).*/
         httpSecurity.addFilterBefore(exceptionHandlerFilter, PermissionFilter.class);
     }
+    
+    
+    
+    @Override
+    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
+        builder
+                .userDetailsService(userService)
+                .passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
 
 }

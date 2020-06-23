@@ -10,7 +10,7 @@ import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ApplicationInstanceDTO;
 import com.v1.CentralDeErros.models.Error;
 import com.v1.CentralDeErros.repositories.ApplicationInstanceRepository;
-import com.v1.CentralDeErros.util.DateUtility;
+import com.v1.CentralDeErros.Util.DateUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

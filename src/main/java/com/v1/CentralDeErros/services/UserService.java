@@ -1,37 +1,50 @@
 package com.v1.CentralDeErros.services;
 
 
+import static java.util.stream.Collectors.toList;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import com.v1.CentralDeErros.exceptions.NotFoundException;
-import com.v1.CentralDeErros.exceptions.UsernameAlreadyTakenException;
-import com.v1.CentralDeErros.models.DTOs.UserDTO;
-import com.v1.CentralDeErros.models.Permission;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+
+import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.exceptions.PasswordException;
 import com.v1.CentralDeErros.exceptions.UserNotAuthenticatedException;
+import com.v1.CentralDeErros.exceptions.UsernameAlreadyTakenException;
+import com.v1.CentralDeErros.models.Permission;
+import com.v1.CentralDeErros.models.Role;
+import com.v1.CentralDeErros.models.SystemUser;
 import com.v1.CentralDeErros.models.UserApplication;
+import com.v1.CentralDeErros.models.DTOs.UserDTO;
+import com.v1.CentralDeErros.repositories.RoleRepository;
 import com.v1.CentralDeErros.repositories.UserRepository;
 
 
-@Service
-public class UserService {
+@Component
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder,RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     public UserApplication findUser(String username) {
@@ -93,4 +106,18 @@ public class UserService {
 
         return user.getPermissions();
     }
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		UserApplication user = userRepository.findByUsername(username)
+				.orElseThrow(() -> new UsernameNotFoundException(String.format("Usuário não existe", username)));
+
+		return new SystemUser(user.getUsername(), user.getUsername(), user.getPassword(), authorities(user));
+	}
+
+	public Collection<? extends GrantedAuthority> authorities(UserApplication user) {
+		List<Role> roles = roleRepository.findByUsers(user);
+        return roles.stream()
+        		.map(p -> new SimpleGrantedAuthority("ROLE_" + p.getName())).collect(toList());
+	}
 }

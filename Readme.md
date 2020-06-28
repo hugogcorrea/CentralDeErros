@@ -59,9 +59,12 @@ http://localhost:8080/swagger-ui.html
 {
 * fullName: "###########",
 * username: "###########",
+* password:  ###########
+}
+
+Essa requisição terá como resposta um token no formato: {Bearer }. Essa resposta deve ser copiada na opção authorize para que o token seja enviado em qualquer operação da aplicação garantindo o acesso.
 
 ### WireFrame
-
 <img width="1028" alt="image1" src="https://user-images.githubusercontent.com/18729026/85949005-74595d00-b92a-11ea-803a-8cb2167f6877.png">
 <img width="1028" alt="image2" src="https://user-images.githubusercontent.com/18729026/85949006-758a8a00-b92a-11ea-9dbd-9c6b84476fa6.png">
 <img width="1027" alt="image3" src="https://user-images.githubusercontent.com/18729026/85949008-758a8a00-b92a-11ea-8f88-cea0e58bda22.png">
@@ -69,15 +72,3 @@ http://localhost:8080/swagger-ui.html
 <img width="1027" alt="image5" src="https://user-images.githubusercontent.com/18729026/85949010-77ece400-b92a-11ea-9e00-e732100fad9d.png">
 <img width="1026" alt="image6" src="https://user-images.githubusercontent.com/18729026/85949011-78857a80-b92a-11ea-8e38-31f28743d05d.png">
 <img width="1032" alt="image7" src="https://user-images.githubusercontent.com/18729026/85949012-791e1100-b92a-11ea-9e27-9073650e4bec.png">
-
-
-
-
-
-
-
-
-* password:  ###########
-}
-
-Essa requisição terá como resposta um token no formato: {Bearer }. Essa resposta deve ser copiada na opção authorize para que o token seja enviado em qualquer operação da aplicação garantindo o acesso.

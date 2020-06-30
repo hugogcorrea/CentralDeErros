@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.csrf().disable()
 				.authorizeRequests()
-				  .antMatchers(ROUTES).permitAll() 	
+				  .antMatchers(ROUTES).permitAll()
 				  .antMatchers(ROUTES_USER).hasRole("USER")
 				  .antMatchers(ROUTES_ADMIN).hasRole("ADMIN")				 
 				  .anyRequest().authenticated() // Qualquer outra requisição deve ser checada

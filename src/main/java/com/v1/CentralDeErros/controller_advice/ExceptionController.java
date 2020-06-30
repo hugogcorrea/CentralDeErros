@@ -9,51 +9,58 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class ExceptionController {
 
-    private JSONObject jsonErrorResponse(String exceptionMessage) {
-        return new JSONObject("{ \"erro\": \"" + exceptionMessage + "\" }");
+    private Map<String, String> jsonErrorResponse(String exceptionMessage) {
+        Map<String, String> mappedValues = new HashMap<>();
+
+        mappedValues.put("erro", exceptionMessage);
+
+        return mappedValues;
     }
 
     @ExceptionHandler(value = NotFoundException.class)
-    public ResponseEntity<JSONObject> exception(NotFoundException exception) {
+    public ResponseEntity<?> exception(NotFoundException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(value = EmptyListException.class)
-    public ResponseEntity<JSONObject> exception(EmptyListException exception) {
+    public ResponseEntity<?> exception(EmptyListException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()), HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(value = WrongInputDataException.class)
-    public ResponseEntity<JSONObject> exception(WrongInputDataException exception) {
+    public ResponseEntity<?> exception(WrongInputDataException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = PasswordException.class)
-    public ResponseEntity<JSONObject> exception(PasswordException exception) {
+    public ResponseEntity<?> exception(PasswordException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = UsernameNotFoundException.class)
-    public ResponseEntity<JSONObject> exception(UsernameNotFoundException exception) {
+    public ResponseEntity<?> exception(UsernameNotFoundException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(value = UserNotAuthenticatedException.class)
-    public ResponseEntity<JSONObject> exception(UserNotAuthenticatedException exception) {
+    public ResponseEntity<?> exception(UserNotAuthenticatedException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()),
                 HttpStatus.NETWORK_AUTHENTICATION_REQUIRED);
     }
 
     @ExceptionHandler(value = UsernameAlreadyTakenException.class)
-    public ResponseEntity<JSONObject> exception(UsernameAlreadyTakenException exception) {
+    public ResponseEntity<?> exception(UsernameAlreadyTakenException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(value = ExpiredJwtException.class)
-    public ResponseEntity<JSONObject> exception(ExpiredJwtException exception) {
+    public ResponseEntity<?> exception(ExpiredJwtException exception) {
         return new ResponseEntity<>(jsonErrorResponse(exception.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 

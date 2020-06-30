@@ -44,6 +44,8 @@ public class PermissionFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+
         String requestURI = request.getRequestURI();
 
         /* Aqui, capturamos o grupo de número 1 da Regexep definida por URI_PATTERN. Isto é, capturamos o id da

@@ -3,6 +3,7 @@ package com.v1.CentralDeErros.services;
 
 import static java.util.stream.Collectors.toList;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +68,13 @@ public class UserService implements UserDetailsService {
 
         String newUserEncryptedPassword = bCryptPasswordEncoder.encode(userDTO.getPassword());
 
-        UserApplication newUser = new UserApplication(userDTO.getUsername(), newUserEncryptedPassword);
+        UserApplication newUser = new UserApplication(userDTO.getUsername(), newUserEncryptedPassword);     
+        //user com role padrão USER_ROLE     
+        Role role = new Role();
+        role.setId(2L);	
+	    List<Role> roles = new ArrayList<Role>();
+		roles.add(role);
+		newUser.setRoles(roles);
 
         userRepository.save(newUser);
     }

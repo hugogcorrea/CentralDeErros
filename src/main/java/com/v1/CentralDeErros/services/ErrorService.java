@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.v1.CentralDeErros.enums.ErrorType;
 import com.v1.CentralDeErros.exceptions.EmptyListException;
 import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.exceptions.WrongInputDataException;
@@ -65,7 +66,25 @@ public class ErrorService implements ErrorServiceInterface {
             throw new NotFoundException("Não existe uma instância de aplicação com o id fornecido");
         }
 
-        Error newError = new Error(errorDTO.getDescription(), registrationDate, relatedApplicationInstance.get());
+        String crashing = "crashing";
+
+        String nonCrashing = "non crashing";
+
+        if (!errorDTO.getType().equals(crashing) && !errorDTO.getType().equals(nonCrashing)) {
+            throw new WrongInputDataException("Defina o erro como 'crashing' ou 'non crashing'");
+        }
+
+        ErrorType errorType = ErrorType.NON_CRASHING;
+
+        if (errorDTO.getType().equals("crashing")) {
+            errorType = ErrorType.CRASHING;
+        }
+
+        if(errorDTO.getType().equals("non crashing")) {
+            errorType = ErrorType.NON_CRASHING;
+        }
+
+        Error newError = new Error(errorDTO.getDescription(), registrationDate, errorType, relatedApplicationInstance.get());
 
         errorRepository.save(newError);
     }

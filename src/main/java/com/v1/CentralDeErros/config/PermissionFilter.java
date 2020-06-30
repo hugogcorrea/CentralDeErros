@@ -1,6 +1,11 @@
 package com.v1.CentralDeErros.config;
 
+import com.v1.CentralDeErros.exceptions.EmptyListException;
+import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.models.Permission;
+import com.v1.CentralDeErros.models.Role;
+import com.v1.CentralDeErros.models.UserApplication;
+import com.v1.CentralDeErros.repositories.RoleRepository;
 import com.v1.CentralDeErros.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -26,6 +31,7 @@ public class PermissionFilter extends OncePerRequestFilter {
 
     private final UserService userService;
 
+
     @Autowired
     public PermissionFilter(UserService userService) {
         this.userService = userService;
@@ -45,7 +51,6 @@ public class PermissionFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-
         String requestURI = request.getRequestURI();
 
         /* Aqui, capturamos o grupo de número 1 da Regexep definida por URI_PATTERN. Isto é, capturamos o id da
@@ -63,10 +68,16 @@ public class PermissionFilter extends OncePerRequestFilter {
             /* Tenicamente, como temos a garantia que a URI da aplicação respeita a Regexp de URI_PATTERN, não
              * há como essa exceção ser lançada no código como ele está agora. Logicamente, caso ele seja modificado,
              * não teremos mais essa garantia, então é importante mesmo assim levarmos em conta essa exceção. */
-            throw new BadCredentialsException("Erro na identificação da aplicação.");
+            throw new BadCredentialsException("Erro na identificacao da aplicacao.");
         }
 
         String currentUsername = userService.getCurrentUserName();
+
+        try {
+            userService.permissions(currentUsername);
+        } catch (NotFoundException ex) {
+            throw new AccessDeniedException("Usuario nao tem permissao para essa aplicacao");
+        }
 
         List<Permission> userPermissions = userService.permissions(currentUsername);
 
@@ -78,7 +89,7 @@ public class PermissionFilter extends OncePerRequestFilter {
                 .findFirst();
 
         if (!permittedApplicationId.isPresent()) {
-            throw new AccessDeniedException("Usuário não tem permissão para essa aplicação");
+            throw new AccessDeniedException("Usuario nao tem permissao para essa aplicacao");
         } else {
             filterChain.doFilter(request, response);
         }

@@ -22,7 +22,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     static final String[] ROUTES_ADMIN = { "/**" };
 	
     
-	static final String[] ROUTES_USER = { "/api/v1/applications" };
+	static final String[] ROUTES_USER = { "/api/v1/applications", "/api/v1/applications/**" };
 	
     private final JwtRequestFilter jwtRequestFilter;
     private final PermissionFilter permissionFilter;

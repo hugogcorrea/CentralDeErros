@@ -1,10 +1,9 @@
 package com.v1.CentralDeErros.services;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.v1.CentralDeErros.models.DTOs.ErrorDTO;
 import com.v1.CentralDeErros.models.Error;
+
+import java.util.List;
 
 public interface ErrorServiceInterface {
 

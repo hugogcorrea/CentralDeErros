@@ -1,6 +1,8 @@
 package com.v1.CentralDeErros.models.DTOs;
 
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @Data
 @NoArgsConstructor

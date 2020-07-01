@@ -1,9 +1,9 @@
 package com.v1.CentralDeErros.models;
 
-import java.util.Collection;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+
+import java.util.Collection;
 
 public class SystemUser extends User {
 

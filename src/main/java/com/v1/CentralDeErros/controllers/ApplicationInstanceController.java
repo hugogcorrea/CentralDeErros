@@ -1,18 +1,15 @@
 package com.v1.CentralDeErros.controllers;
 
 import com.v1.CentralDeErros.models.ApplicationInstance;
-import com.v1.CentralDeErros.models.DTOs.ApplicationInstanceDTO;
 import com.v1.CentralDeErros.models.DTOs.ErrorDTO;
 import com.v1.CentralDeErros.models.Error;
 import com.v1.CentralDeErros.services.ApplicationInstanceServiceInterface;
 import com.v1.CentralDeErros.services.ErrorServiceInterface;
-import org.hibernate.validator.constraints.EAN;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RequestMapping("api/v1/applications")

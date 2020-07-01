@@ -1,13 +1,11 @@
 package com.v1.CentralDeErros.models;
 
-import java.time.LocalDateTime;
+import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-
-import org.springframework.data.annotation.CreatedDate;
-
-import lombok.Data;
+import java.time.LocalDateTime;
 
 @Entity
 @Data

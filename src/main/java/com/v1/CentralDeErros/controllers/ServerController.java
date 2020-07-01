@@ -32,7 +32,7 @@ public class ServerController {
                                                     @RequestBody ApplicationInstanceDTO applicationInstanceDTO) {
         applicationService.addNew(applicationInstanceDTO, id);
 
-        return new ResponseEntity<>("Aplicação adicionada com sucesso", HttpStatus.OK);
+        return new ResponseEntity<>("Aplicacao adicionada com sucesso", HttpStatus.OK);
     }
 
     @PostMapping

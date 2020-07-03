@@ -1,11 +1,10 @@
 package com.v1.CentralDeErros.models;
 
-import java.io.Serializable;
+import lombok.Data;
 
 import javax.persistence.Embeddable;
 import javax.persistence.ManyToOne;
-
-import lombok.Data;
+import java.io.Serializable;
 
 @Embeddable
 @Data

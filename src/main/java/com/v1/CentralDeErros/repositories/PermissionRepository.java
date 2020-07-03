@@ -1,10 +1,9 @@
 package com.v1.CentralDeErros.repositories;
 
-import java.util.List;
-
+import com.v1.CentralDeErros.models.Permission;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.v1.CentralDeErros.models.Permission;
+import java.util.List;
 
 public interface PermissionRepository extends JpaRepository<Permission, Integer>{
 	

@@ -1,16 +1,14 @@
 package com.v1.CentralDeErros.services;
 
-import com.v1.CentralDeErros.exceptions.DoesNotHavePermissionException;
-import com.v1.CentralDeErros.models.Permission;
-import com.v1.CentralDeErros.models.Server;
-import com.v1.CentralDeErros.repositories.ServerRepository;
+import com.v1.CentralDeErros.Util.DateUtility;
 import com.v1.CentralDeErros.exceptions.NotFoundException;
 import com.v1.CentralDeErros.exceptions.WrongInputDataException;
 import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ApplicationInstanceDTO;
 import com.v1.CentralDeErros.models.Error;
+import com.v1.CentralDeErros.models.Server;
 import com.v1.CentralDeErros.repositories.ApplicationInstanceRepository;
-import com.v1.CentralDeErros.Util.DateUtility;
+import com.v1.CentralDeErros.repositories.ServerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

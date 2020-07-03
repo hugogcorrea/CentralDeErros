@@ -1,6 +1,5 @@
 package com.v1.CentralDeErros.controllers;
 
-import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ApplicationInstanceDTO;
 import com.v1.CentralDeErros.models.DTOs.ServerDTO;
 import com.v1.CentralDeErros.models.Server;

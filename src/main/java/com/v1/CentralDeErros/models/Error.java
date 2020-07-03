@@ -1,13 +1,12 @@
 package com.v1.CentralDeErros.models;
 
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.v1.CentralDeErros.enums.ErrorType;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data

@@ -1,7 +1,6 @@
 package com.v1.CentralDeErros.services;
 
 import com.v1.CentralDeErros.exceptions.NotFoundException;
-import com.v1.CentralDeErros.models.ApplicationInstance;
 import com.v1.CentralDeErros.models.DTOs.ServerDTO;
 import com.v1.CentralDeErros.models.Server;
 import com.v1.CentralDeErros.repositories.ServerRepository;

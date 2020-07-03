@@ -1,13 +1,17 @@
 package com.v1.CentralDeErros.services;
 
 
-import static java.util.stream.Collectors.toList;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-
+import com.v1.CentralDeErros.exceptions.NotFoundException;
+import com.v1.CentralDeErros.exceptions.PasswordException;
+import com.v1.CentralDeErros.exceptions.UserNotAuthenticatedException;
+import com.v1.CentralDeErros.exceptions.UsernameAlreadyTakenException;
+import com.v1.CentralDeErros.models.DTOs.UserDTO;
+import com.v1.CentralDeErros.models.Permission;
+import com.v1.CentralDeErros.models.Role;
+import com.v1.CentralDeErros.models.SystemUser;
+import com.v1.CentralDeErros.models.UserApplication;
+import com.v1.CentralDeErros.repositories.RoleRepository;
+import com.v1.CentralDeErros.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -21,17 +25,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.v1.CentralDeErros.exceptions.NotFoundException;
-import com.v1.CentralDeErros.exceptions.PasswordException;
-import com.v1.CentralDeErros.exceptions.UserNotAuthenticatedException;
-import com.v1.CentralDeErros.exceptions.UsernameAlreadyTakenException;
-import com.v1.CentralDeErros.models.Permission;
-import com.v1.CentralDeErros.models.Role;
-import com.v1.CentralDeErros.models.SystemUser;
-import com.v1.CentralDeErros.models.UserApplication;
-import com.v1.CentralDeErros.models.DTOs.UserDTO;
-import com.v1.CentralDeErros.repositories.RoleRepository;
-import com.v1.CentralDeErros.repositories.UserRepository;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
+import static java.util.stream.Collectors.toList;
 
 
 @Component

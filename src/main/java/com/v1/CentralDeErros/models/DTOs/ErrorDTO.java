@@ -19,9 +19,6 @@ public class ErrorDTO {
     @NonNull
     private String registrationDate;
 
-    private ErrorType type;
-
-    public void setType(ErrorType type) {
-        this.type = type;
-    }
+    @NonNull
+    private String type;
 }

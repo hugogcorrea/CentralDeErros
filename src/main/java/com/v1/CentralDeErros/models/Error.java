@@ -25,8 +25,7 @@ public class Error {
     @NonNull
     private Date registrationDate;
 
-    // TODO: Pedir o tipo de erro via requestParam
-    private ErrorType errorType = ErrorType.NON_CRASHING;
+    private ErrorType errorType;
 
     @NonNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,9 +33,10 @@ public class Error {
     @JsonIgnore
     private ApplicationInstance applicationInstance;
 
-    public Error(String description, Date registrationDate, ApplicationInstance applicationInstance) {
+    public Error(String description, Date registrationDate, ErrorType type, ApplicationInstance applicationInstance) {
         this.description = description;
         this.registrationDate = registrationDate;
         this.applicationInstance = applicationInstance;
+        this.errorType = type;
     }
 }

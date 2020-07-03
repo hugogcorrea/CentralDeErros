@@ -46,22 +46,4 @@ public class LoginController {
 
 		return new ResponseEntity<>("Cadastro realizado com sucesso!", HttpStatus.OK);
 	}
-
-	@ApiOperation(value = "Teste retorna user autenticado")
-	@GetMapping("/teste")
-	@ResponseBody
-	public Authentication teste() {
-		
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		return authentication;
-	}
-	
-	
-	@ApiOperation(value = "Teste retorna user autenticado")
-	@GetMapping("/roles")
-	@ResponseBody
-	public Collection<? extends GrantedAuthority> roles() {	
-		return userService.authorities(userService.findUser(userService.getCurrentUserName()));
-	}
-
 }
